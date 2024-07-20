@@ -1,0 +1,1 @@
+olá mundo, esse é o arquivo de leitura!
