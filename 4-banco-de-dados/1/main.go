@@ -3,6 +3,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 
 	_ "github.com/go-sql-driver/mysql" // o _ é para importar o pacote sem usar
 	"github.com/google/uuid"
@@ -34,6 +35,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	p, err = selecProduct(db, p.ID)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Produto %v possui o preço de %v\n", p.Name, p.Price)
 }
 
 func insertProduct(db *sql.DB, p *Product) error {
@@ -67,4 +74,18 @@ func updateProduct(db *sql.DB, p *Product) error {
 		return err
 	}
 	return nil
+}
+
+func selecProduct(db *sql.DB, id string) (*Product, error) {
+	stmt, err := db.Prepare("select id, name, price from products where id = ?")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+	var p Product
+	err = stmt.QueryRow(id).Scan(&p.ID, &p.Name, &p.Price) // ordem dos campos tem que ser igual a ordem do select
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
 }
