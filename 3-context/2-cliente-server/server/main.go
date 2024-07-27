@@ -24,7 +24,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	select {
 	case <-time.After(5 * time.Second):
-		log.Println("Processamento finalizado  com sucesso") // imprime no console
+		log.Println("Processamento finalizado com sucesso") // imprime no console
 		// imprime no browser
 		w.Write([]byte("Processamento finalizado com sucesso"))
 	case <-ctx.Done():
