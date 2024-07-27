@@ -46,5 +46,25 @@ func insertProduct(db *sql.DB, p *Product) error {
 	if err != nil {
 		return err
 	}
+
+	p.Price = 39.99
+	err = updateProduct(db, p)
+	if err != nil {
+		panic(err)
+	}
+
+	return nil
+}
+
+func updateProduct(db *sql.DB, p *Product) error {
+	stmt, err := db.Prepare("update products set name = ?, price = ? where id = ?")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(p.Name, p.Price, p.ID)
+	if err != nil {
+		return err
+	}
 	return nil
 }
