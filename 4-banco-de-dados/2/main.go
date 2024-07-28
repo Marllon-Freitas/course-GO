@@ -2,6 +2,8 @@
 package main
 
 import (
+	"fmt"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -22,12 +24,43 @@ func main() {
 	db.AutoMigrate(&Product{})
 
 	// Create
-	db.Create(&Product{Name: "Dell XPS 13", Price: 1000})
+	// db.Create(&Product{Name: "Dell XPS 13", Price: 1000})
 
 	// Create many
-	products := []Product{
-		{Name: "Macbook Pro", Price: 2000},
-		{Name: "Thinkpad X1", Price: 1500},
+	// products := []Product{
+	// 	{Name: "Macbook Pro", Price: 2000},
+	// 	{Name: "Thinkpad X1", Price: 1500},
+	// }
+	// db.Create(&products)
+
+	// Select one
+	// var product Product
+	// db.First(&product, 1)
+	// db.First(&product, "name = ?", "Dell XPS 13")
+	// fmt.Println(product)
+
+	// Select many
+	// var products []Product
+	// db.Find(&products)
+	// for _, product := range products {
+	// 	fmt.Println(product)
+	// }
+
+	// limit and offset
+	// var products []Product
+	// db.Limit(2).Offset(1).Find(&products)
+	// for _, product := range products {
+	// 	fmt.Println(product)
+	// }
+
+	// Where
+	var product []Product
+	// db.Where("price > ?", 1000).Find(&product)
+	// for _, p := range product {
+	// 	fmt.Println(p)
+	// }
+	db.Where("name LIKE ?", "%Dell%").Find(&product)
+	for _, p := range product {
+		fmt.Println(p)
 	}
-	db.Create(&products)
 }
