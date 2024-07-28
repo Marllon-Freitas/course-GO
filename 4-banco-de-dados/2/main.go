@@ -40,11 +40,11 @@ func main() {
 	// fmt.Println(product)
 
 	// Select many
-	// var products []Product
-	// db.Find(&products)
-	// for _, product := range products {
-	// 	fmt.Println(product)
-	// }
+	var products []Product
+	db.Find(&products)
+	for _, product := range products {
+		fmt.Println(product)
+	}
 
 	// limit and offset
 	// var products []Product
@@ -54,13 +54,26 @@ func main() {
 	// }
 
 	// Where
-	var product []Product
+	// var product []Product
 	// db.Where("price > ?", 1000).Find(&product)
 	// for _, p := range product {
 	// 	fmt.Println(p)
 	// }
-	db.Where("name LIKE ?", "%Dell%").Find(&product)
-	for _, p := range product {
-		fmt.Println(p)
-	}
+	// db.Where("name LIKE ?", "%Dell%").Find(&product)
+	// for _, p := range product {
+	// 	fmt.Println(p)
+	// }
+
+	// Update
+	// var product Product
+	// db.First(&product, 1)
+	// product.Price = 1100
+	// db.Save(&product)
+
+	// var products02 Product
+	// db.First(&products02, 1)
+	// fmt.Println(products02)
+
+	// Delete
+	// db.Delete(products02)
 }
