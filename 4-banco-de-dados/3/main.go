@@ -14,12 +14,19 @@ type Category struct {
 	gorm.Model
 }
 
+type SerialNumber struct {
+	ID        int `gorm:"primaryKey"`
+	ProductID int
+	Number    string
+}
+
 type Product struct {
-	ID         int `gorm:"primaryKey"`
-	Name       string
-	Price      float64
-	CategoryID int
-	Category   Category `gorm:"foreignKey:CategoryID"`
+	ID           int `gorm:"primaryKey"`
+	Name         string
+	Price        float64
+	CategoryID   int
+	Category     Category `gorm:"foreignKey:CategoryID"`
+	SerialNumber SerialNumber
 	gorm.Model
 }
 
@@ -30,19 +37,23 @@ func main() {
 		panic("failed to connect database")
 	}
 
-	db.AutoMigrate(&Product{})
+	db.AutoMigrate(&Category{}, &Product{}, &SerialNumber{})
 
-	// // Create category
-	// category := Category{Name: "Eletronicos"}
-	// db.Create(&category)
+	// Create category
+	category := Category{Name: "Eletronicos"}
+	db.Create(&category)
 
 	// Create product
 	product := Product{Name: "Mouse", Price: 100, CategoryID: 1}
 	db.Create(&product)
 
+	// Create serial number
+	serialNumber := SerialNumber{ProductID: 1, Number: "123456"}
+	db.Create(&serialNumber)
+
 	var products []Product
-	db.Preload("Category").Find(&products)
+	db.Preload("Category").Preload("SerialNumber").Find(&products)
 	for _, p := range products {
-		fmt.Println(p.Name, p.Category.Name)
+		fmt.Println(p.Name, p.Category.Name, p.SerialNumber.Number)
 	}
 }
