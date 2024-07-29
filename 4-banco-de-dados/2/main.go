@@ -2,8 +2,6 @@
 package main
 
 import (
-	"fmt"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -12,10 +10,11 @@ type Product struct {
 	ID    int `gorm:"primaryKey"`
 	Name  string
 	Price float64
+	gorm.Model
 }
 
 func main() {
-	dsn := "root:root@tcp(localhost:3307)/goexpert"
+	dsn := "root:root@tcp(localhost:3307)/goexpert?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
@@ -40,11 +39,11 @@ func main() {
 	// fmt.Println(product)
 
 	// Select many
-	var products []Product
-	db.Find(&products)
-	for _, product := range products {
-		fmt.Println(product)
-	}
+	// var products []Product
+	// db.Find(&products)
+	// for _, product := range products {
+	// 	fmt.Println(product)
+	// }
 
 	// limit and offset
 	// var products []Product
@@ -72,8 +71,7 @@ func main() {
 
 	// var products02 Product
 	// db.First(&products02, 1)
-	// fmt.Println(products02)
 
 	// Delete
-	// db.Delete(products02)
+	// db.Delete(&products02)
 }
