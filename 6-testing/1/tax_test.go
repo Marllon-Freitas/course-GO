@@ -3,7 +3,8 @@ package tax
 import "testing"
 
 // por padrão para lidar com testes no go, os metodos devem começar com Test
-
+// go test . -coverprofile=coverage.out 
+// go tool cover -html=coverage 
 func TestCalculateTax(t *testing.T) {
 	t.Run("Tax is 5% of the amount", func(t *testing.T) {
 		amount := 100.0
@@ -37,6 +38,7 @@ func TestCalculateTaxInBatch(t *testing.T) {
 	tests := []calcText{
 		{100.0, 5.0},
 		{1000.0, 100.0},
+		{0, 0},
 	}
 
 	for _, test := range tests {
