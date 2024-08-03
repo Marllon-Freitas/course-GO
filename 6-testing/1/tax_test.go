@@ -27,3 +27,22 @@ func TestCalculateTax(t *testing.T) {
 		}
 	})
 }
+
+func TestCalculateTaxInBatch(t *testing.T) {
+	type calcText struct {
+		amount, expected float64
+	}
+
+	// testa varios casos de uma vez
+	tests := []calcText{
+		{100.0, 5.0},
+		{1000.0, 100.0},
+	}
+
+	for _, test := range tests {
+		result := CalculateTax(test.amount)
+		if result != test.expected {
+			t.Errorf("Expected %.2f, got %.2f", test.expected, result)
+		}
+	}
+}
